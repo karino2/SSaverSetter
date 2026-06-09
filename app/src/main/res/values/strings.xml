@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SSaverSetter</string>
+    <string name="main_instruction">Share an image to this app to set it as screensaver.</string>
+    <string name="revert_to_default">Revert To Default</string>
+</resources>
