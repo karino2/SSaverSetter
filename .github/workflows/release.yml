@@ -24,6 +24,9 @@ jobs:
         echo "${{ secrets.SIGNING_KEY }}" | base64 -d > ${{ github.workspace }}/release-key.jks
     
     - name: Build release APK
+      env:
+        STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+        SIGNNING_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
       run: |
         if [ ! -f ./gradlew ]; then
            echo "gradlew not found, generating..."
@@ -32,9 +35,9 @@ jobs:
         chmod +x ./gradlew
         ./gradlew assembleRelease \
           -Pandroid.injected.signing.store.file=${{ github.workspace }}/release-key.jks \
-          -Pandroid.injected.signing.store.password=${{ secrets.SIGNING_STORE_PASSWORD }} \
+          "-Pandroid.injected.signing.store.password=$STORE_PASSWORD" \
           -Pandroid.injected.signing.key.alias=${{ secrets.SIGNING_KEY_ALIAS }} \
-          -Pandroid.injected.signing.key.password=${{ secrets.SIGNING_KEY_PASSWORD }}
+          "-Pandroid.injected.signing.key.password=$SINING_PASSWORD"
     
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
